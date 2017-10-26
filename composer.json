@@ -1,0 +1,25 @@
+{
+    "name": "webstasolutions/laravel-eloquent-filter",
+    "authors": [
+        {
+            "name": "Ivan Kratochvíl",
+            "email": "ivan.kratochvil@layoutmaschine.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "WebstaSolutions\\LaravelEloquentFilter\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.0"
+    },
+    "extra": {
+        "branch-alias": { "dev-master": "0.0.1-dev" },
+        "laravel": {
+            "providers": [
+                "WebstaSolutions\\LaravelEloquentFilter\\ServiceProvider"
+            ]
+        }
+    }
+}
