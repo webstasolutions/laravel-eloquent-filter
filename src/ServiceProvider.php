@@ -2,6 +2,9 @@
 
 namespace WebstaSolutions\LaravelEloquentFilter;
 
+use \Illuminate\Database\Eloquent\Builder;
+use \Illuminate\Http\Request;
+
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
@@ -21,6 +24,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-
+        Builder::macro('filterByRequest', function(Request $request) {
+            $filterer = new Filterer($this);
+            return $filterer->filterByRequest($request);
+        });
     }
 }
