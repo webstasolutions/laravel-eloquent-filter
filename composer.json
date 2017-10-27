@@ -12,7 +12,8 @@
         }
     },
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "laravelcollective/html": "^5.5",
     },
     "extra": {
         "branch-alias": { "dev-master": "0.0.1-dev" },

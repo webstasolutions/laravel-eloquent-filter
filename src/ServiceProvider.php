@@ -2,6 +2,7 @@
 
 namespace WebstaSolutions\LaravelEloquentFilter;
 
+
 use \Illuminate\Database\Eloquent\Builder;
 use \Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot()
     {
-
+        $this->loadViewsFrom(__DIR__.'/Views', 'laravel_eloquent_filter');
     }
 
     /**
@@ -24,9 +25,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        Builder::macro('filterByRequest', function(Request $request) {
+        Builder::macro('filterByRequest', function (Request $request, string $prefix = null) {
             $filterer = new Filterer($this);
-            return $filterer->filterByRequest($request);
+            return $filterer->filterByRequest($request, $prefix);
         });
     }
 }
