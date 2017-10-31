@@ -26,10 +26,14 @@ class Filterer
     public function filterByRequest(Request $request, string $prefix = null)
     {
         $model = $this->builder->getModel();
-        if(!is_array($model->filterSettings)) {
+        try {
+            if(!is_array($model->filterSettings())) {
+                throw new NoFilterSettingsException($model);
+            }
+        } catch (\BadMethodCallException $e) {
             throw new NoFilterSettingsException($model);
         }
-        foreach ($model->filterSettings as $column => $filterSetting) {
+        foreach ($model->filterSettings() as $column => $filterSetting) {
             if(!isset($filterSetting['filter'])) {
                 throw new NoFilterSettingsException($model);
             }

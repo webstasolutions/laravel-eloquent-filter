@@ -16,6 +16,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__.'/Views', 'laravel_eloquent_filter');
+        $this->loadTranslationsFrom(__DIR__.'/Translations', 'laravel_eloquent_filter');
     }
 
     /**
