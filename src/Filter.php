@@ -34,6 +34,11 @@ abstract class Filter
     private $modelName = '';
 
     /**
+     * @var string
+     */
+    protected $relationName = '';
+
+    /**
      * Filter constructor.
      * @param array $settings
      */
@@ -41,7 +46,7 @@ abstract class Filter
     {
         $this->settings = $settings;
         foreach ($this->defaultSettings as $key => $value) {
-            if(!isset($this->settings[$key])) {
+            if (!isset($this->settings[$key])) {
                 $this->settings[$key] = $value;
             }
         }
@@ -53,7 +58,7 @@ abstract class Filter
     public function setBuilder(Builder $builder)
     {
         $this->builder = $builder;
-        if(!isset($this->settings['prefix'])) {
+        if (!isset($this->settings['prefix'])) {
             $explodedModelClassName = explode('\\', get_class($this->builder->getModel()));
             $this->modelName = strtolower(end($explodedModelClassName));
         } else {
@@ -69,34 +74,49 @@ abstract class Filter
         $this->columnName = $columnName;
     }
 
+    /**
+     * @param Request $request
+     * @return Builder
+     */
+    public function _filter(Request $request, string $prefix = null)
+    {
+        $relationsArray = explode('.', $this->columnName);
+        if (count($relationsArray) > 1) {
+            $this->setColumnName(array_pop($relationsArray));
+            $relation = implode('.', $relationsArray);
+            return $this->builder->whereHas($relation, function ($query) use (&$request, &$prefix, &$relation) {
+                $this->builder = $query;
+                $this->relationName = $relation;
+                $this->filter($request, $prefix);
+            });
+        }
+        return $this->filter($request, $prefix);
+    }
+
     public function getFilterName(string $prefix = null)
     {
-        if(!isset($prefix)) {
+        if (!isset($prefix)) {
             $prefix = $this->modelName;
         }
-        return $prefix . '_' . $this->columnName;
+        return str_replace('.', '_', $prefix . '_' . ($this->relationName !== '' ? $this->relationName . '_' : '') . $this->columnName);
     }
 
     /**
      * @param Request $request
      * @return Builder
      */
-    public function filter(Request $request, string $prefix = null)
-    {
-        if($request->get($this->getFilterName($prefix)) !== null) {
-            return $this->builder;
-        }
-    }
+    protected abstract function filter(Request $request, string $prefix = null);
 
     /**
      * @return string
      */
-    public function render(bool $label, string $prefix = null) {
+    public function render(bool $label, string $prefix = null)
+    {
         $request = request();
         return view($this->settings['view'], [
             'name' => $this->getFilterName($prefix),
             'value' => $request->get($this->getFilterName($prefix)),
-            'label' => $label ? isset($this->settings['label']) ? $this->settings['label'] : isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null : null
+            'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null
         ]);
     }
 }

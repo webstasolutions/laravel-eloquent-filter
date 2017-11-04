@@ -26,18 +26,22 @@ class Filterer
     public function filterByRequest(Request $request, string $prefix = null)
     {
         $model = $this->builder->getModel();
-        if(!is_array($model->filterSettings)) {
+        try {
+            if (!is_array($model->filterSettings())) {
+                throw new NoFilterSettingsException($model);
+            }
+        } catch (\BadMethodCallException $e) {
             throw new NoFilterSettingsException($model);
         }
-        foreach ($model->filterSettings as $column => $filterSetting) {
-            if(!isset($filterSetting['filter'])) {
+        foreach ($model->filterSettings() as $column => $filterSetting) {
+            if (!isset($filterSetting['filter'])) {
                 throw new NoFilterSettingsException($model);
             }
             $settings = isset($filterSetting['settings']) ? $filterSetting['settings'] : [];
             $filter = new $filterSetting['filter']($settings);
             $filter->setBuilder($this->builder);
             $filter->setColumnName($column);
-            $this->builder = $filter->filter($request, $prefix);
+            $this->builder = $filter->_filter($request, $prefix);
         }
         return $this->builder;
     }

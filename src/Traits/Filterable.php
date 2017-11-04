@@ -19,7 +19,7 @@ trait Filterable
 
     public static function renderFilter(string $columnName, bool $label = true, string $prefix = null) {
         $instance = new self();
-        $filterSettings = $instance->filterSettings[$columnName];
+        $filterSettings = $instance->filterSettings()[$columnName];
         $settings = isset($filterSettings['settings']) ? $filterSettings['settings'] : [];
         $filter = new $filterSettings['filter']($settings);
         $filter->setBuilder(self::query());
