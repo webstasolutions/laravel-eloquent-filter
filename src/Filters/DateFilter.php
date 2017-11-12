@@ -6,10 +6,10 @@ namespace WebstaSolutions\LaravelEloquentFilter\Filters;
 use Illuminate\Http\Request;
 use WebstaSolutions\LaravelEloquentFilter\Filter;
 
-class RangeFilter extends Filter
+class DateFilter extends Filter
 {
     protected $defaultSettings = [
-        'view' => 'laravel_eloquent_filter::Filters.range-filter'
+        'view' => 'laravel_eloquent_filter::Filters.date-filter'
     ];
 
     protected function filter(Request $request, string $prefix = null)
@@ -17,10 +17,10 @@ class RangeFilter extends Filter
         $from = $request->get($this->getFilterName($prefix) . '_from');
         $to = $request->get($this->getFilterName($prefix) . '_to');
         if(!empty($from)) {
-            $this->builder = $this->builder->where($this->columnName, '>=', $from);
+            $this->builder = $this->builder->whereDate($this->columnName, '>=', $from);
         }
         if(!empty($to)) {
-            $this->builder = $this->builder->where($this->columnName, '<=', $to);
+            $this->builder = $this->builder->whereDate($this->columnName, '<=', $to);
         }
         return $this->builder;
     }

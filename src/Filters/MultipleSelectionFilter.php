@@ -9,7 +9,7 @@ use WebstaSolutions\LaravelEloquentFilter\Filter;
 class MultipleSelectionFilter extends Filter
 {
     protected $defaultSettings = [
-        'view' => 'laravel_eloquent_filter::multiple-selection-filter',
+        'view' => 'laravel_eloquent_filter::Filters.multiple-selection-filter',
         'values' => 'db'
     ];
 

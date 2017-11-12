@@ -3,6 +3,9 @@
 return [
 
     'from' => 'From',
-    'to' => 'To'
+    'to' => 'To',
+
+    'filter' => 'Filter',
+    'reset' => 'Reset'
 
 ];

@@ -59,8 +59,7 @@ abstract class Filter
     {
         $this->builder = $builder;
         if (!isset($this->settings['prefix'])) {
-            $explodedModelClassName = explode('\\', get_class($this->builder->getModel()));
-            $this->modelName = strtolower(end($explodedModelClassName));
+            $this->modelName = Helpers::getModelName($this->builder->getModel());
         } else {
             $this->modelName = $this->settings['prefix'];
         }

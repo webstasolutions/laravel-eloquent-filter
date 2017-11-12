@@ -9,7 +9,7 @@ use WebstaSolutions\LaravelEloquentFilter\Filter;
 class TextFilter extends Filter
 {
     protected $defaultSettings = [
-        'view' => 'laravel_eloquent_filter::text-filter'
+        'view' => 'laravel_eloquent_filter::Filters.text-filter'
     ];
 
     protected function filter(Request $request, string $prefix = null)
