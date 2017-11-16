@@ -5,6 +5,7 @@ namespace WebstaSolutions\LaravelEloquentFilter\Filters;
 
 use Illuminate\Http\Request;
 use WebstaSolutions\LaravelEloquentFilter\Filter;
+use WebstaSolutions\LaravelEloquentFilter\Helpers;
 
 class RangeFilter extends Filter
 {
@@ -14,8 +15,8 @@ class RangeFilter extends Filter
 
     protected function filter(Request $request, string $prefix = null)
     {
-        $from = $request->get($this->getFilterName($prefix) . '_from');
-        $to = $request->get($this->getFilterName($prefix) . '_to');
+        $from = Helpers::getInputValue($this->getFilterName($prefix) . '_from', $request);
+        $to = Helpers::getInputValue($this->getFilterName($prefix) . '_to', $request);
         if(!empty($from)) {
             $this->builder = $this->builder->where($this->columnName, '>=', $from);
         }

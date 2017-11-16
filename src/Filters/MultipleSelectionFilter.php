@@ -5,6 +5,7 @@ namespace WebstaSolutions\LaravelEloquentFilter\Filters;
 
 use Illuminate\Http\Request;
 use WebstaSolutions\LaravelEloquentFilter\Filter;
+use WebstaSolutions\LaravelEloquentFilter\Helpers;
 
 class MultipleSelectionFilter extends Filter
 {
@@ -15,7 +16,7 @@ class MultipleSelectionFilter extends Filter
 
     protected function filter(Request $request, string $prefix = null)
     {
-        $conditions = $request->get($this->getFilterName($prefix));
+        $conditions = Helpers::getInputValue($this->getFilterName($prefix), $request);
         if (is_array($conditions)) {
             $this->builder = $this->builder->where(function ($query) use (&$conditions) {
                 $query->where($this->columnName, $conditions[0]);
@@ -35,7 +36,7 @@ class MultipleSelectionFilter extends Filter
             if (count($relationsArray) > 1) {
                 $this->setColumnName(array_pop($relationsArray));
                 $relation = implode('.', $relationsArray);
-                $this->builder->whereHas($relation, function ($query) use (&$request, &$prefix, &$relation) {
+                $this->builder->whereHas($relation, function ($query) use (&$prefix, &$relation) {
                     $this->builder = $query;
                     $this->relationName = $relation;
                 });
@@ -45,8 +46,7 @@ class MultipleSelectionFilter extends Filter
         } else {
             $values = $this->settings['values'];
         }
-        $request = request();
-        $selectedValues = $request->get($this->getFilterName($prefix)) ?: [];
+        $selectedValues = Helpers::getInputValue($this->getFilterName($prefix)) ?: [];
         if($this->settings['values'] == 'db') {
             $selectedValues = array_combine($selectedValues, $selectedValues);
         } else {

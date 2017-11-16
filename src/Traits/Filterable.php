@@ -41,4 +41,8 @@ trait Filterable
            'prefix' => $prefix ?: Helpers::getModelName(self::class)
         ]);
     }
+
+    public static function renderFilterButton(string $prefix = null) {
+        return view('laravel_eloquent_filter::filter-button');
+    }
 }

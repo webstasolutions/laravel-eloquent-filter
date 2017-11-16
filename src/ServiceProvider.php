@@ -17,6 +17,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/Views', 'laravel_eloquent_filter');
         $this->loadTranslationsFrom(__DIR__.'/Translations', 'laravel_eloquent_filter');
+        $this->publishes([
+            __DIR__.'/Config/laravel_eloquent_filter.php' => config_path('laravel_eloquent_filter.php'),
+        ]);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace WebstaSolutions\LaravelEloquentFilter;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use WebstaSolutions\LaravelEloquentFilter\Helpers;
 
 abstract class Filter
 {
@@ -111,10 +112,9 @@ abstract class Filter
      */
     public function render(bool $label, string $prefix = null)
     {
-        $request = request();
         return view($this->settings['view'], [
             'name' => $this->getFilterName($prefix),
-            'value' => $request->get($this->getFilterName($prefix)),
+            'value' => Helpers::getInputValue($this->getFilterName($prefix)),
             'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null
         ]);
     }

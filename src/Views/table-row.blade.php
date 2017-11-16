@@ -8,7 +8,7 @@
     @endforeach
     <td>
         <form>
-            <input type="submit" class="btn btn-primary" value="@lang('laravel_eloquent_filter::filter.filter')">
+            {!! $model::renderFilterButton() !!}
             {!! $model::renderResetButton($prefix) !!}
         </form>
     </td>

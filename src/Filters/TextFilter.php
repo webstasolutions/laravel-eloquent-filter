@@ -5,6 +5,7 @@ namespace WebstaSolutions\LaravelEloquentFilter\Filters;
 
 use Illuminate\Http\Request;
 use WebstaSolutions\LaravelEloquentFilter\Filter;
+use WebstaSolutions\LaravelEloquentFilter\Helpers;
 
 class TextFilter extends Filter
 {
@@ -14,6 +15,6 @@ class TextFilter extends Filter
 
     protected function filter(Request $request, string $prefix = null)
     {
-        return $this->builder->where($this->columnName, 'LIKE', '%' . $request->get($this->getFilterName($prefix)) . '%');
+        return $this->builder->where($this->columnName, 'LIKE', '%' . Helpers::getInputValue($this->getFilterName($prefix), $request) . '%');
     }
 }
