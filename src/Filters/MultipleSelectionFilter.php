@@ -28,7 +28,7 @@ class MultipleSelectionFilter extends Filter
         return $this->builder;
     }
 
-    public function render(bool $label, string $prefix = null)
+    public function render(string $prefix = null, bool $label, bool $reset)
     {
         $values = [];
         if ($this->settings['values'] == 'db') {
@@ -57,10 +57,12 @@ class MultipleSelectionFilter extends Filter
             $selectedValues = $newArray;
         }
         return view($this->settings['view'], [
+            'prefix' => $prefix ?: $this->modelName,
             'name' => $this->getFilterName($prefix),
             'values' => $values,
             'selectedValues' => $selectedValues,
-            'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null
+            'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null,
+            'reset' => $reset
         ]);
     }
 }

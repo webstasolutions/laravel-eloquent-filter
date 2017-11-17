@@ -2,14 +2,15 @@
     @foreach($columns as $column)
         <td>
             @if($column !== '')
-                {!! $model::renderFilter($column, false, $prefix) !!}
+                {!! $model::renderFilter($column,$prefix, false, true) !!}
             @endif
         </td>
     @endforeach
     <td>
         <form>
-            {!! $model::renderFilterButton() !!}
+            {!! $model::renderPerPageSelect($prefix) !!}
             {!! $model::renderResetButton($prefix) !!}
+            {!! $model::renderFilterButton($prefix) !!}
         </form>
     </td>
     <script>
@@ -18,7 +19,7 @@
             var forms = tr.getElementsByTagName('form');
             var form = forms[forms.length - 1];
             form.addEventListener('submit', function (e) {
-                var inputs = tr.querySelectorAll('[data-eloquent-filter]');
+                var inputs = document.querySelectorAll('[data-eloquent-filter][name*={{ $prefix }}_]');
                 inputs.forEach(function (input) {
                     if(input.value !== '') {
                         var hidden = document.createElement('input');

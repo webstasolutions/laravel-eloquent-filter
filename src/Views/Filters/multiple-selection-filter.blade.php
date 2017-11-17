@@ -5,7 +5,7 @@
     @endif
     <div class="dropdown" style="margin-bottom: 10px;">
         <button class="btn btn-default glyphicon glyphicon-filter dropdown-toggle" data-toggle="dropdown"></button>
-        <ul class="dropdown-menu" style="padding: 0 10px 10px;">
+        <ul class="dropdown-menu" id="{{ $name }}_dropdown-menu" style="padding: 0 10px 10px;">
             @foreach($values as $key => $value)
                 <li class="checkbox">
                     <label>
@@ -19,7 +19,7 @@
                 </li>
             @endforeach
             <li>
-                <button class="btn btn-danger {{ $name }}_reset">@lang('laravel_eloquent_filter::filter.reset')</button>
+                <button class="btn btn-danger" id="{{ $name }}_clear">@lang('laravel_eloquent_filter::filter.clear')</button>
             </li>
         </ul>
     </div>
@@ -30,17 +30,24 @@
             @endforeach
         </p>
     @endif
+    @if($reset)
+        <div class="form-group">
+            <button class="btn btn-danger" onclick="
+                    document.getElementById('{{ $name }}_clear').click();
+                    document.getElementById('{{ $prefix }}_submit_filter').click()
+                    ">@lang('laravel_eloquent_filter::filter.reset')</button>
+        </div>
+    @endif
     <script>
         (function () {
-            var filter = document.scripts[document.scripts.length - 1].parentNode;
-            var dropdown = filter.getElementsByClassName('dropdown-menu')[0];
+            var dropdown = document.getElementById('{{ $name }}_dropdown-menu');
             dropdown.addEventListener('click', function (e) {
                 e.stopPropagation();
             });
-            var resetButton = filter.getElementsByClassName("{{ $name }}_reset")[0];
+            var resetButton = document.getElementById("{{ $name }}_clear");
             resetButton.addEventListener('click', function (e) {
                 e.preventDefault();
-                var inputs = filter.querySelectorAll('input[type=checkbox]');
+                var inputs = dropdown.querySelectorAll('input[type=checkbox]');
                 inputs.forEach(function (input) {
                     input.checked = false;
                 });

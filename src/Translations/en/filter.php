@@ -6,6 +6,8 @@ return [
     'to' => 'To',
 
     'filter' => 'Filter',
-    'reset' => 'Reset'
+    'reset' => 'Reset',
+    'clear' => 'Clear',
 
+    'per_page' => 'Per page'
 ];

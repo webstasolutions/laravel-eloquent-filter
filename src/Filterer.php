@@ -23,7 +23,7 @@ class Filterer
      * @param Request $request
      * @return Builder
      */
-    public function filterByRequest(Request $request, string $prefix = null)
+    public function filterByRequest(Request $request, string $prefix = null, bool $paginate = true)
     {
         $model = $this->builder->getModel();
         try {
@@ -42,6 +42,9 @@ class Filterer
             $filter->setBuilder($this->builder);
             $filter->setColumnName($column);
             $this->builder = $filter->_filter($request, $prefix);
+        }
+        if($paginate) {
+            return $this->builder->paginate(Helpers::getInputValue($prefix ?: Helpers::getModelName($model) . '_per_page'));
         }
         return $this->builder;
     }

@@ -26,14 +26,15 @@ class RangeFilter extends Filter
         return $this->builder;
     }
 
-    public function render(bool $label, string $prefix = null)
+    public function render(string $prefix = null, bool $label, bool $reset)
     {
-        $request = request();
         return view($this->settings['view'], [
+            'prefix' => $prefix ?: $this->modelName,
             'name' => $this->getFilterName($prefix),
-            'valueFrom' => $request->get($this->getFilterName($prefix) . '_from'),
-            'valueTo' => $request->get($this->getFilterName($prefix) . '_to'),
-            'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null
+            'valueFrom' => Helpers::getInputValue($this->getFilterName($prefix) . '_from'),
+            'valueTo' => Helpers::getInputValue($this->getFilterName($prefix) . '_to'),
+            'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null,
+            'reset' => $reset
         ]);
     }
 }

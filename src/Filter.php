@@ -32,7 +32,7 @@ abstract class Filter
     /**
      * @var string
      */
-    private $modelName = '';
+    protected $modelName = '';
 
     /**
      * @var string
@@ -110,12 +110,14 @@ abstract class Filter
     /**
      * @return string
      */
-    public function render(bool $label, string $prefix = null)
+    public function render(string $prefix = null, bool $label, bool $reset)
     {
         return view($this->settings['view'], [
+            'prefix' => $prefix ?: $this->modelName,
             'name' => $this->getFilterName($prefix),
             'value' => Helpers::getInputValue($this->getFilterName($prefix)),
-            'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null
+            'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null,
+            'reset' => $reset
         ]);
     }
 }

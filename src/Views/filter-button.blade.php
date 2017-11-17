@@ -1,1 +1,1 @@
-<button class="btn btn-primary" name="filter_submit" value="filter">@lang('laravel_eloquent_filter::filter.filter')</button>
+<button class="btn btn-primary" name="filter_submit" id="{{ $prefix }}_submit_filter" value="filter">@lang('laravel_eloquent_filter::filter.filter')</button>

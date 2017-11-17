@@ -29,9 +29,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        Builder::macro('filterByRequest', function (Request $request, string $prefix = null) {
+        Builder::macro('filterByRequest', function (Request $request, string $prefix = null, bool $paginate = true) {
             $filterer = new Filterer($this);
-            return $filterer->filterByRequest($request, $prefix);
+            return $filterer->filterByRequest($request, $prefix, $paginate);
         });
     }
 }
