@@ -18,9 +18,11 @@
                     </label>
                 </li>
             @endforeach
-            <li>
-                <button class="btn btn-danger" id="{{ $name }}_clear">@lang('laravel_eloquent_filter::filter.clear')</button>
-            </li>
+            @if(count($selectedValues) > 0)
+                <li>
+                    <button class="btn btn-danger" id="{{ $name }}_clear">@lang('laravel_eloquent_filter::filter.clear')</button>
+                </li>
+            @endif
         </ul>
     </div>
     @if(!empty($selectedValues))
@@ -30,7 +32,7 @@
             @endforeach
         </p>
     @endif
-    @if($reset)
+    @if($reset && count($selectedValues) > 0)
         <div class="form-group">
             <button class="btn btn-danger" onclick="
                     document.getElementById('{{ $name }}_clear').click();
@@ -41,17 +43,22 @@
     <script>
         (function () {
             var dropdown = document.getElementById('{{ $name }}_dropdown-menu');
-            dropdown.addEventListener('click', function (e) {
-                e.stopPropagation();
-            });
-            var resetButton = document.getElementById("{{ $name }}_clear");
-            resetButton.addEventListener('click', function (e) {
-                e.preventDefault();
-                var inputs = dropdown.querySelectorAll('input[type=checkbox]');
-                inputs.forEach(function (input) {
-                    input.checked = false;
+            if (dropdown) {
+
+                dropdown.addEventListener('click', function (e) {
+                    e.stopPropagation();
                 });
-            });
+                var resetButton = document.getElementById("{{ $name }}_clear");
+                if (resetButton) {
+                    resetButton.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        var inputs = dropdown.querySelectorAll('input[type=checkbox]');
+                        inputs.forEach(function (input) {
+                            input.checked = false;
+                        });
+                    });
+                }
+            }
         })();
     </script>
 </div>

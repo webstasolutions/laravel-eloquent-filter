@@ -7,7 +7,7 @@
 <div class="form-group">
     <input data-eloquent-filter type="text" name="{{ $name }}_to" id="{{ $name }}_to" value="{{ $valueTo }}" placeholder="@lang('laravel_eloquent_filter::filter.to')" class="form-control"/>
 </div>
-@if($reset)
+@if($reset && ($valueFrom || $valueTo))
     <div class="form-group">
         <button class="btn btn-danger" onclick="
                 document.getElementById('{{ $name }}_from').value = '';

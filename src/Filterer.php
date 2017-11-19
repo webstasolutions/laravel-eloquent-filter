@@ -19,12 +19,7 @@ class Filterer
         $this->builder = $builder;
     }
 
-    /**
-     * @param Request $request
-     * @return Builder
-     */
-    public function filterByRequest(Request $request, string $prefix = null, bool $paginate = true)
-    {
+    private function checkModel() {
         $model = $this->builder->getModel();
         try {
             if (!is_array($model->filterSettings())) {
@@ -33,6 +28,16 @@ class Filterer
         } catch (\BadMethodCallException $e) {
             throw new NoFilterSettingsException($model);
         }
+        return $model;
+    }
+
+    /**
+     * @param Request $request
+     * @return Builder
+     */
+    public function filterByRequest(Request $request, string $prefix = null, bool $paginate = true)
+    {
+        $model = $this->checkModel();
         foreach ($model->filterSettings() as $column => $filterSetting) {
             if (!isset($filterSetting['filter'])) {
                 throw new NoFilterSettingsException($model);
