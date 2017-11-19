@@ -14,9 +14,9 @@ class MultipleSelectionFilter extends Filter
         'values' => 'db'
     ];
 
-    protected function filter(Request $request, string $prefix = null)
+    protected function filter(array $values)
     {
-        $conditions = Helpers::getInputValue($this->getFilterName($prefix), $request);
+        $conditions = $values[0];
         if (is_array($conditions)) {
             $this->builder = $this->builder->where(function ($query) use (&$conditions) {
                 $query->where($this->columnName, $conditions[0]);
@@ -28,9 +28,9 @@ class MultipleSelectionFilter extends Filter
         return $this->builder;
     }
 
-    public function render(string $prefix = null, bool $label, bool $reset)
+    public function render(array $templateData)
     {
-        $values = [];
+        $checkboxValues = [];
         if ($this->settings['values'] == 'db') {
             $relationsArray = explode('.', $this->columnName);
             if (count($relationsArray) > 1) {
@@ -42,27 +42,22 @@ class MultipleSelectionFilter extends Filter
                 });
             }
             $distinct = $this->builder->getModel()::query()->select($this->columnName)->distinct()->pluck($this->columnName)->toArray();
-            $values = array_combine($distinct, $distinct);
+            $checkboxValues = array_combine($distinct, $distinct);
         } else {
-            $values = $this->settings['values'];
+            $checkboxValues = $this->settings['values'];
         }
-        $selectedValues = Helpers::getInputValue($this->getFilterName($prefix)) ?: [];
+        $templateData['checkboxValues'] = $checkboxValues;
+        $values = $templateData['values'][0] ?: [];
         if($this->settings['values'] == 'db') {
-            $selectedValues = array_combine($selectedValues, $selectedValues);
+            $values = array_combine($values, $values);
         } else {
             $newArray = [];
-            foreach($selectedValues as $selectedValue) {
+            foreach($values as $selectedValue) {
                 $newArray[$selectedValue] = $this->settings['values'][$selectedValue];
             }
-            $selectedValues = $newArray;
+            $values = $newArray;
         }
-        return view($this->settings['view'], [
-            'prefix' => $prefix ?: $this->modelName,
-            'name' => $this->getFilterName($prefix),
-            'values' => $values,
-            'selectedValues' => $selectedValues,
-            'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null,
-            'reset' => $reset
-        ]);
+        $templateData['values'][0] = $values;
+        return view($this->settings['view'], $templateData);
     }
 }

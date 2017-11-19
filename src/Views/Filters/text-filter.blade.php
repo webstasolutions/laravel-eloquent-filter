@@ -2,9 +2,9 @@
     @if(isset($label))
         <label class="label-control" for="{{ $name }}">{{ $label }}</label>
     @endif
-    <input data-eloquent-filter type="text" name="{{ $name }}" id="{{ $name }}" value="{{ $value }}" class="form-control"/>
+    <input data-eloquent-filter type="text" name="{{ $name }}" id="{{ $name }}" value="{{ $values[0] }}" class="form-control"/>
 </div>
-@if($reset && $value)
+@if($reset && $values[0])
     <div class="form-group">
         <button class="btn btn-danger" onclick="
                 document.getElementById('{{ $name }}').value = '';

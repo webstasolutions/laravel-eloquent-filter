@@ -34,5 +34,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             $filterer = new Filterer($this);
             return $filterer->filterByRequest($request, $prefix, $paginate);
         });
+        Builder::macro('filterByArray', function (array $array) {
+            $filterer = new Filterer($this);
+            return $filterer->filterByArray($array);
+        });
     }
 }

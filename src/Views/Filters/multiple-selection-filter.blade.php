@@ -6,33 +6,33 @@
     <div class="dropdown" style="margin-bottom: 10px;">
         <button class="btn btn-default glyphicon glyphicon-filter dropdown-toggle" data-toggle="dropdown"></button>
         <ul class="dropdown-menu" id="{{ $name }}_dropdown-menu" style="padding: 0 10px 10px;">
-            @foreach($values as $key => $value)
+            @foreach($checkboxValues as $key => $value)
                 <li class="checkbox">
                     <label>
                         <input data-eloquent-filter
                                type="checkbox"
                                name="{{ $name }}[]"
                                value="{{ $key }}"
-                               @if(in_array($value, $selectedValues)) checked="checked" @endif>
+                               @if(in_array($value, $values)) checked="checked" @endif>
                         {{ $value }}
                     </label>
                 </li>
             @endforeach
-            @if(count($selectedValues) > 0)
+            @if(count($values) > 0)
                 <li>
                     <button class="btn btn-danger" id="{{ $name }}_clear">@lang('laravel_eloquent_filter::filter.clear')</button>
                 </li>
             @endif
         </ul>
     </div>
-    @if(!empty($selectedValues))
+    @if(!empty($values[0]))
         <p>
-            @foreach($selectedValues as $selectedValue)
-                {{ $selectedValue }}
+            @foreach($values[0] as $value)
+                {{ $value }}
             @endforeach
         </p>
     @endif
-    @if($reset && count($selectedValues) > 0)
+    @if($reset && count($values) > 0)
         <div class="form-group">
             <button class="btn btn-danger" onclick="
                     document.getElementById('{{ $name }}_clear').click();

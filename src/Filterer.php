@@ -46,10 +46,27 @@ class Filterer
             $filter = new $filterSetting['filter']($settings);
             $filter->setBuilder($this->builder);
             $filter->setColumnName($column);
-            $this->builder = $filter->_filter($request, $prefix);
+            $this->builder = $filter->_filterByRequest($request, $prefix);
         }
         if($paginate) {
             return $this->builder->paginate(Helpers::getInputValue($prefix ?: Helpers::getModelName($model) . '_per_page'));
+        }
+        return $this->builder;
+    }
+
+    public function filterByArray(array $array)
+    {
+        $model = $this->checkModel();
+        foreach ($array as $column => $values) {
+            $filterSetting = $model->filterSettings()[$column];
+            if (!isset($filterSetting['filter'])) {
+                throw new NoFilterSettingsException($model);
+            }
+            $settings = isset($filterSetting['settings']) ? $filterSetting['settings'] : [];
+            $filter = new $filterSetting['filter']($settings);
+            $filter->setBuilder($this->builder);
+            $filter->setColumnName($column);
+            $this->builder = $filter->_filterByValues($values);
         }
         return $this->builder;
     }

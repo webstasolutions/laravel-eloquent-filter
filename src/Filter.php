@@ -17,6 +17,11 @@ abstract class Filter
     /**
      * @var array
      */
+    protected $values = [''];
+
+    /**
+     * @var array
+     */
     protected $settings = [];
 
     /**
@@ -78,19 +83,44 @@ abstract class Filter
      * @param Request $request
      * @return Builder
      */
-    public function _filter(Request $request, string $prefix = null)
+    public function _filterByRequest(Request $request, string $prefix = null)
     {
+        $values = array_map(function ($suffix) use (&$prefix, &$request) {
+            return Helpers::getInputValue($this->getFilterName($prefix) . $suffix, $request);
+        }, $this->values);
+        return $this->_filterByValues($values);
+    }
+
+    public function _filterByValues(array $values)
+    {
+        if (count($values) === 0) $values[0] = null;
         $relationsArray = explode('.', $this->columnName);
         if (count($relationsArray) > 1) {
             $this->setColumnName(array_pop($relationsArray));
             $relation = implode('.', $relationsArray);
-            return $this->builder->whereHas($relation, function ($query) use (&$request, &$prefix, &$relation) {
+            return $this->builder->whereHas($relation, function ($query) use (&$values, &$prefix, &$relation) {
                 $this->builder = $query;
                 $this->relationName = $relation;
-                $this->filter($request, $prefix);
+                $this->filter($values);
             });
         }
-        return $this->filter($request, $prefix);
+        return $this->filter($values);
+    }
+
+    public function _render(string $prefix = null, bool $label, bool $reset)
+    {
+        $values = array_map(function ($suffix) use (&$prefix) {
+            return Helpers::getInputValue($this->getFilterName($prefix) . $suffix);
+        }, $this->values);
+        if (count($values) === 0) $values[0] = null;
+        $templateData = [
+            'prefix' => $prefix ?: $this->modelName,
+            'name' => $this->getFilterName($prefix),
+            'values' => $values,
+            'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null,
+            'reset' => $reset
+        ];
+        return $this->render($templateData);
     }
 
     public function getFilterName(string $prefix = null)
@@ -105,19 +135,13 @@ abstract class Filter
      * @param Request $request
      * @return Builder
      */
-    protected abstract function filter(Request $request, string $prefix = null);
+    protected abstract function filter(array $values);
 
     /**
      * @return string
      */
-    public function render(string $prefix = null, bool $label, bool $reset)
+    public function render(array $templateData)
     {
-        return view($this->settings['view'], [
-            'prefix' => $prefix ?: $this->modelName,
-            'name' => $this->getFilterName($prefix),
-            'value' => Helpers::getInputValue($this->getFilterName($prefix)),
-            'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null,
-            'reset' => $reset
-        ]);
+        return view($this->settings['view'], $templateData);
     }
 }

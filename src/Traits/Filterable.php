@@ -17,6 +17,10 @@ trait Filterable
     {
         return self::query()->filterByRequest($request, $prefix, $paginate);
     }
+    public static function filterByArray(array $array)
+    {
+        return self::query()->filterByArray($array);
+    }
 
     public static function renderFilter(string $columnName, string $prefix = null, bool $label = true, bool $reset = false) {
         $instance = new self();
@@ -25,7 +29,7 @@ trait Filterable
         $filter = new $filterSettings['filter']($settings);
         $filter->setBuilder(self::query());
         $filter->setColumnName($columnName);
-        return $filter->render($prefix, $label, $reset);
+        return $filter->_render($prefix, $label, $reset);
     }
 
     public static function renderFilterTableRow(array $columns, string $prefix = null) {

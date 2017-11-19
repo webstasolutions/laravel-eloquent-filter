@@ -13,8 +13,8 @@ class TextFilter extends Filter
         'view' => 'laravel_eloquent_filter::Filters.text-filter'
     ];
 
-    protected function filter(Request $request, string $prefix = null)
+    protected function filter(array $values)
     {
-        return $this->builder->where($this->columnName, 'LIKE', '%' . Helpers::getInputValue($this->getFilterName($prefix), $request) . '%');
+        return $this->builder->where($this->columnName, 'LIKE', '%' . $values[0] . '%');
     }
 }
