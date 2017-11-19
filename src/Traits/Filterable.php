@@ -40,7 +40,16 @@ trait Filterable
         ]);
     }
 
-    public static function renderResetButton(string $prefix = null) {
+    public static function renderFilterTableHead(array $columns, string $prefix = null) {
+        return view('laravel_eloquent_filter::table-head', [
+            'labels' => array_map(function($column) {
+                return Helpers::getFilterLabel($column, self::class);
+            }, $columns),
+            'filterRow' => self::renderFilterTableRow($columns, $prefix)
+        ]);
+    }
+
+    public static function RenderFilterResetButton(string $prefix = null) {
         return view('laravel_eloquent_filter::reset-button', [
            'prefix' => $prefix ?: Helpers::getModelName(self::class)
         ]);

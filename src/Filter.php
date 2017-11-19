@@ -117,7 +117,7 @@ abstract class Filter
             'prefix' => $prefix ?: $this->modelName,
             'name' => $this->getFilterName($prefix),
             'values' => $values,
-            'label' => $label ? (isset($this->settings['label']) ? $this->settings['label'] : (isset($this->settings['label_trans']) ? trans($this->settings['label_trans']) : null)) : null,
+            'label' => $label ? Helpers::getFilterLabel($this->columnName, null, $this->settings) : null,
             'reset' => $reset
         ];
         return $this->render($templateData);

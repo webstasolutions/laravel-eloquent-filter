@@ -4,6 +4,7 @@ namespace WebstaSolutions\LaravelEloquentFilter;
 
 
 use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use \Illuminate\Http\Request;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -34,6 +35,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             $filterer = new Filterer($this);
             return $filterer->filterByRequest($request, $prefix, $paginate);
         });
+
         Builder::macro('filterByArray', function (array $array) {
             $filterer = new Filterer($this);
             return $filterer->filterByArray($array);
