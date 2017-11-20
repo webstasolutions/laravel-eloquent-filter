@@ -33,6 +33,7 @@ class Helpers
 
     public static function getFilterLabel(string $column, $model = null, array $filterSettings = null)
     {
+        if($column == '') return '';
         if(!isset($filterSettings)) {
             try {
                 $instance = new $model();
