@@ -18,7 +18,7 @@
                     </label>
                 </li>
             @endforeach
-            @if(count($values) > 0)
+            @if(!empty($values[0]))
                 <li>
                     <button class="btn btn-danger" id="{{ $name }}_clear">@lang('laravel_eloquent_filter::filter.clear')</button>
                 </li>
@@ -32,7 +32,7 @@
             @endforeach
         </p>
     @endif
-    @if($reset && count($values) > 0)
+    @if($reset && !empty($values[0]))
         <div class="form-group">
             <button class="btn btn-danger" onclick="
                     document.getElementById('{{ $name }}_clear').click();
