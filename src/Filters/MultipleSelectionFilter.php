@@ -36,9 +36,9 @@ class MultipleSelectionFilter extends Filter
             if (count($relationsArray) > 1) {
                 $this->setColumnName(array_pop($relationsArray));
                 $relation = implode('.', $relationsArray);
-                $this->builder->whereHas($relation, function ($query) use (&$prefix, &$relation) {
+                //$this->relationName = $relation;
+                $this->builder->whereHas($relation, function ($query) use (&$prefix) {
                     $this->builder = $query;
-                    $this->relationName = $relation;
                 });
             }
             $distinct = $this->builder->getModel()::query()->select($this->columnName)->distinct()->pluck($this->columnName)->toArray();

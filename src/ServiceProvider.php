@@ -20,8 +20,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/Translations', 'laravel_eloquent_filter');
         $this->publishes([
             __DIR__.'/Config/laravel_eloquent_filter.php' => config_path('laravel_eloquent_filter.php'),
+        ], 'config');
+        $this->publishes([
             __DIR__.'/Views' => resource_path('views/vendor/laravel_eloquent_filter'),
-        ]);
+        ], 'templates');
     }
 
     /**
@@ -31,7 +33,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        Builder::macro('filterByRequest', function (Request $request, string $prefix = null, bool $paginate = true) {
+        Builder::macro('filterByRequest', function (Request $request = null, string $prefix = null, bool $paginate = true) {
             $filterer = new Filterer($this);
             return $filterer->filterByRequest($request, $prefix, $paginate);
         });

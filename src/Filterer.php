@@ -35,8 +35,9 @@ class Filterer
      * @param Request $request
      * @return Builder
      */
-    public function filterByRequest(Request $request, string $prefix = null, bool $paginate = true)
+    public function filterByRequest(Request $request = null, string $prefix = null, bool $paginate = true)
     {
+        if(!isset($request)) $request = request();
         $model = $this->checkModel();
         foreach ($model->filterSettings() as $column => $filterSetting) {
             if (!isset($filterSetting['filter'])) {

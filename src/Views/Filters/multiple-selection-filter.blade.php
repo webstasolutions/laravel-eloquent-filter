@@ -13,7 +13,7 @@
                                type="checkbox"
                                name="{{ $name }}[]"
                                value="{{ $key }}"
-                               @if(in_array($value, $values)) checked="checked" @endif>
+                               @if(in_array($value, $values[0])) checked @endif>
                         {{ $value }}
                     </label>
                 </li>

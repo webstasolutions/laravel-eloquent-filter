@@ -42,7 +42,7 @@ abstract class Filter
     /**
      * @var string
      */
-    protected $relationName = '';
+    //protected $relationName = '';
 
     /**
      * Filter constructor.
@@ -81,6 +81,7 @@ abstract class Filter
 
     /**
      * @param Request $request
+     * @param string $prefix
      * @return Builder
      */
     public function _filterByRequest(Request $request, string $prefix = null)
@@ -98,9 +99,9 @@ abstract class Filter
         if (count($relationsArray) > 1) {
             $this->setColumnName(array_pop($relationsArray));
             $relation = implode('.', $relationsArray);
+            //$this->relationName = $relation;
             return $this->builder->whereHas($relation, function ($query) use (&$values, &$prefix, &$relation) {
                 $this->builder = $query;
-                $this->relationName = $relation;
                 $this->filter($values);
             });
         }
@@ -128,16 +129,17 @@ abstract class Filter
         if (!isset($prefix)) {
             $prefix = $this->modelName;
         }
-        return str_replace('.', '_', $prefix . '_' . ($this->relationName !== '' ? $this->relationName . '_' : '') . $this->columnName);
+        return str_replace('.', '_', $prefix . '_' . /*($this->relationName !== '' ? $this->relationName . '_' : '') .*/ $this->columnName);
     }
 
     /**
-     * @param Request $request
+     * @param array $values
      * @return Builder
      */
     protected abstract function filter(array $values);
 
     /**
+     * @param array $templateData
      * @return string
      */
     public function render(array $templateData)

@@ -13,7 +13,7 @@ trait Filterable
      * @param Request $request
      * @return Builder
      */
-    public static function filterByRequest(Request $request, string $prefix = null, bool $paginate = true)
+    public static function filterByRequest(Request $request = null, string $prefix = null, bool $paginate = true)
     {
         return self::query()->filterByRequest($request, $prefix, $paginate);
     }
