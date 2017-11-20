@@ -49,7 +49,7 @@ trait Filterable
         ]);
     }
 
-    public static function RenderFilterResetButton(string $prefix = null) {
+    public static function renderFilterResetButton(string $prefix = null) {
         return view('laravel_eloquent_filter::reset-button', [
            'prefix' => $prefix ?: Helpers::getModelName(self::class)
         ]);

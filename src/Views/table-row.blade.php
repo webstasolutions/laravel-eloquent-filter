@@ -9,7 +9,7 @@
     <td>
         <form>
             {!! $model::renderPerPageSelect($prefix) !!}
-            {!! $model::RenderFilterResetButton($prefix) !!}
+            {!! $model::renderFilterResetButton($prefix) !!}
             {!! $model::renderFilterButton($prefix) !!}
         </form>
     </td>
