@@ -7,6 +7,7 @@ Laravel module for easy creating and using Eloquent filters.
 * PHP 7.0.0+
 * Laravel 5.5+ (tested)
 * Bootstrap 3 (optional)
+* Font Awesome (optional)
 
 ## Installation
 
@@ -107,6 +108,12 @@ You usually want to use this method in a form with renderFilterButton and render
 *renderPerPageSelect* method takes new prefix as optional parameter and creates select input for selecting how many records should be displayed in one list. It is used if you set the *paginate* parameter to true in a controller. Default numbers are 10, 25, 50, 100. You can change them in the *per-page-select.blade.php* view.
 
 ```php
+{!! \App\User::renderSortingButtons('age', 'new_prefix') !!}
+```
+
+*renderSortingButtons* method takes column name as first and new prefix as optional second parameter. This methods renders buttons for sorting the records. It calls SQL ORDER BY, so it doesn't work with relations.
+
+```php
 {!! \App\User::renderFilterTableRow(['name', 'role.name'], 'new_prefix') !!}
 ```
 
@@ -121,13 +128,14 @@ These two methods both render filters specified in first parameter (as an array)
 There are two methods you can use in controller. Both are available on the model and on the Eloquent query builder.
 
 ```php
-$users = User::filterByRequest($request, 'new_prefix', false);
+$users = User::filterByRequest($request, 'new_prefix', false, true);
 ```
 
-First of them is *filterByRequest*. You usually want to use this one. It takes 3 optional parameters, which are:
+First of them is *filterByRequest*. You usually want to use this one. It takes 4 optional parameters, which are:
 * Illuminate\Http\Request instance
 * the prefix of the GET parameters
-* paginate parameter - if true, this method return a collection of records rather than Eloquent query builder - it paginates the result by the *per page* select.
+* paginate parameter - if true, this method return a collection of records rather than Eloquent query builder - it paginates the result by the *per page* select. Default true.
+* sort parameter - if true, the records are sorted with the use of the *renderSortingButtons* view method. Default true.
 
 ```php
 $users = User::filterByArray([
@@ -138,7 +146,7 @@ $users = User::filterByArray([
 
 The second method is *filterByArray*. It takes one compulsory array of column => values. The values are also an array, because in some filter type you need more than one input. This method returns an Eloquent query builder.
 
-#### Filter types
+## Filter types
 
 Default filter types are in the WebstaSolutions\LaravelEloquentFilter\Filters namespace.
 
@@ -192,7 +200,7 @@ public function filterSettings()
 }
 ```
 
-#### Creating custom filters
+## Creating custom filters
 
 Sometimes you need more than default filters. You can create your own filter by extending the WebstaSolutions\LaravelEloquentFilter\Filter class. You need to set the default settings of the filter by creating *defaultSettings* protected attribute.
 

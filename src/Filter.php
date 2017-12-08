@@ -99,8 +99,7 @@ abstract class Filter
         if (count($relationsArray) > 1) {
             $this->setColumnName(array_pop($relationsArray));
             $relation = implode('.', $relationsArray);
-            //$this->relationName = $relation;
-            return $this->builder->whereHas($relation, function ($query) use (&$values, &$prefix, &$relation) {
+            return $this->builder->whereHas($relation, function ($query) use (&$values, &$prefix) {
                 $this->builder = $query;
                 $this->filter($values);
             });
@@ -129,7 +128,7 @@ abstract class Filter
         if (!isset($prefix)) {
             $prefix = $this->modelName;
         }
-        return str_replace('.', '_', $prefix . '_' . /*($this->relationName !== '' ? $this->relationName . '_' : '') .*/ $this->columnName);
+        return str_replace('.', '_', $prefix . '_' . $this->columnName);
     }
 
     /**

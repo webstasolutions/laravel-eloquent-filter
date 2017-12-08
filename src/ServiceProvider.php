@@ -33,9 +33,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        Builder::macro('filterByRequest', function (Request $request = null, string $prefix = null, bool $paginate = true) {
+        Builder::macro('filterByRequest', function (Request $request = null, string $prefix = null, bool $paginate = true, bool $sort = true) {
             $filterer = new Filterer($this);
-            return $filterer->filterByRequest($request, $prefix, $paginate);
+            return $filterer->filterByRequest($request, $prefix, $paginate, $sort);
         });
 
         Builder::macro('filterByArray', function (array $array) {

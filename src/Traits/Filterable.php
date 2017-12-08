@@ -13,10 +13,11 @@ trait Filterable
      * @param Request $request
      * @return Builder
      */
-    public static function filterByRequest(Request $request = null, string $prefix = null, bool $paginate = true)
+    public static function filterByRequest(Request $request = null, string $prefix = null, bool $paginate = true, bool $sort = true)
     {
-        return self::query()->filterByRequest($request, $prefix, $paginate);
+        return self::query()->filterByRequest($request, $prefix, $paginate, $sort);
     }
+
     public static function filterByArray(array $array)
     {
         return self::query()->filterByArray($array);
@@ -33,31 +34,38 @@ trait Filterable
     }
 
     public static function renderFilterTableRow(array $columns, string $prefix = null) {
+        $realPrefix = $prefix ?: Helpers::getModelName(self::class);
         return view('laravel_eloquent_filter::table-row', [
             'columns' => $columns,
             'model' => self::class,
-            'prefix' => $prefix
+            'prefix' => $realPrefix
         ]);
     }
 
     public static function renderFilterTableHead(array $columns, string $prefix = null) {
+        $realPrefix = $prefix ?: Helpers::getModelName(self::class);
         return view('laravel_eloquent_filter::table-head', [
             'labels' => array_map(function($column) {
                 return Helpers::getFilterLabel($column, self::class);
             }, $columns),
+            'model' => self::class,
+            'prefix' => $realPrefix,
+            'columns' => $columns,
             'filterRow' => self::renderFilterTableRow($columns, $prefix)
         ]);
     }
 
     public static function renderFilterResetButton(string $prefix = null) {
+        $realPrefix = $prefix ?: Helpers::getModelName(self::class);
         return view('laravel_eloquent_filter::reset-button', [
-           'prefix' => $prefix ?: Helpers::getModelName(self::class)
+           'prefix' => $realPrefix
         ]);
     }
 
     public static function renderFilterButton(string $prefix = null) {
+        $realPrefix = $prefix ?: Helpers::getModelName(self::class);
         return view('laravel_eloquent_filter::filter-button', [
-            'prefix' => $prefix ?: Helpers::getModelName(self::class)
+            'prefix' => $realPrefix
         ]);
     }
 
@@ -67,6 +75,18 @@ trait Filterable
             'prefix' => $realPrefix,
             'value' => Helpers::getInputValue($realPrefix . '_per_page'),
             'total' => self::count()
+        ]);
+    }
+
+    public static function renderSortingButtons(string $columnName, string $prefix = null) {
+        $realPrefix = $prefix ?: Helpers::getModelName(self::class);
+        if(count(explode('.', $columnName)) > 1) return null;
+        $value = Helpers::getInputValue($realPrefix . '_sorting');
+        $sorting = explode('-', $value);
+        return view('laravel_eloquent_filter::sorting-buttons', [
+            'prefix' => $realPrefix,
+            'sorting' => $sorting,
+            'columnName' => $columnName,
         ]);
     }
 }
