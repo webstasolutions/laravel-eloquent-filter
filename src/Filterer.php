@@ -35,7 +35,7 @@ class Filterer
      * @param Request $request
      * @return Builder
      */
-    public function filterByRequest(Request $request = null, string $prefix = null, bool $paginate = true, bool $sort = true)
+    public function filterByRequest(Request $request = null, string $prefix = null, bool $paginate = true, bool $sort = true, string $defaultSort = null, string $defaultSortOrder = null)
     {
         if(!isset($request)) $request = request();
         $model = $this->checkModel();
@@ -51,7 +51,11 @@ class Filterer
         }
         if($sort) {
             $sorting = explode('-', Helpers::getInputValue($prefix ?: Helpers::getModelName($model) . '_sorting'));
-            if(count($sorting) == 2) $this->builder = $this->builder->orderBy($sorting[0], $sorting[1]);
+            if(count($sorting) == 2) {
+                $this->builder = $this->builder->orderBy($sorting[0], $sorting[1]);
+            } else if(isset($defaultSort) && isset($defaultSortOrder)) {
+                $this->builder = $this->builder->orderBy($defaultSort, $defaultSortOrder);
+            }
         }
         if($paginate) {
             return $this->builder->paginate(Helpers::getInputValue($prefix ?: Helpers::getModelName($model) . '_per_page'));
