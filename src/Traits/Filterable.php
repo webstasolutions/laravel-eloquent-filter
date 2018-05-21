@@ -13,9 +13,9 @@ trait Filterable
      * @param Request $request
      * @return Builder
      */
-    public static function filterByRequest(Request $request = null, string $prefix = null, bool $paginate = true, bool $sort = true)
+    public static function filterByRequest(Request $request = null, string $prefix = null, bool $paginate = true, bool $sort = true, string $defaultSort = null, string $defaultSortOrder = null)
     {
-        return self::query()->filterByRequest($request, $prefix, $paginate, $sort);
+        return self::query()->filterByRequest($request, $prefix, $paginate, $sort, $defaultSort, $defaultSortOrder);
     }
 
     public static function filterByArray(array $array)
