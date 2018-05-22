@@ -23,6 +23,12 @@
                     <button class="btn btn-danger" id="{{ $name }}_clear">@lang('laravel_eloquent_filter::filter.clear')</button>
                 </li>
             @endif
+            <li>
+                <button class="btn btn-danger btn-sm" onclick="
+                        document.getElementById('{{ $prefix }}_submit_filter').click();
+                        return false;
+                        "><i class="fas fa-filter"></i> @lang('laravel_eloquent_filter::filter.filter')</button>
+            </li>
         </ul>
     </div>
     @if(!empty($values[0]))
