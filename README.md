@@ -59,7 +59,8 @@ class User extends Model
             'name' => [
                 'filter' => TextFilter::class,
                 'settings' => [
-                    'label_trans' => 'users.name'
+                    'label_trans' => 'users.name',
+                    'columns' => ['users.name', 'users.surname']
                 ]
             ],
             'role.name' => [
@@ -76,6 +77,7 @@ class User extends Model
 
 Here I want to filter column *name*. First key in the configuration array is *filter*. The value is the Filter class which should be used for this column. By default there are 4 types of filters in the WebstaSolutions\LaravelEloquentFilter\Filters namespace, more on that later.\
 The settings key takes the configuration of the specified filter. It is different for each type, but there is one compulsory key and that is *label* or *label_trans* (for translations). There is also one optional key - view, which is the blade template which should be rendered.
+For TextFilter you can define array of *columns* in which you want to search.
 
 You can also filter by relationships by using dot notation. In this case I filter by the name column in the roles table.
 
