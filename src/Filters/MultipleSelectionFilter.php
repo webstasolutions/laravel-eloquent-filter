@@ -19,9 +19,11 @@ class MultipleSelectionFilter extends Filter
         $conditions = $values[0];
         if (is_array($conditions)) {
             $this->builder = $this->builder->where(function ($query) use (&$conditions) {
-                $query->where($this->columnName, $conditions[0]);
-                foreach(array_slice($conditions, 1) as $condition) {
-                    $query->orWhere($this->columnName, $condition);
+                if (!empty($conditions[0])) {
+                    $query->where($this->columnName, $conditions[0]);
+                    foreach(array_slice($conditions, 1) as $condition) {
+                        $query->orWhere($this->columnName, $condition);
+                    }
                 }
             });
         }
@@ -53,7 +55,9 @@ class MultipleSelectionFilter extends Filter
         } else {
             $newArray = [];
             foreach($values as $selectedValue) {
-                $newArray[$selectedValue] = $this->settings['values'][$selectedValue];
+                if (!empty($selectedValue)) {
+                    $newArray[$selectedValue] = $this->settings['values'][$selectedValue];
+                }
             }
             $values = $newArray;
         }
