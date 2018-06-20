@@ -1,7 +1,7 @@
 <tr>
     @foreach($columns as $column)
         <td>
-            @if($column !== '')
+            @if($column !== '' && !is_null($column))
                 {!! $model::renderFilter($column, $prefix, false, true) !!}
             @endif
         </td>

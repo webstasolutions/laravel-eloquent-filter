@@ -125,6 +125,12 @@ You usually want to use this method in a form with renderFilterButton and render
 
 These two methods both render filters specified in first parameter (as an array) and buttons as a table row. The latter method also renders a table head with labels.
 
+You can define columns with empty header by null:
+```php
+{!! \App\User::renderFilterTableHead(['name', null, 'role.name'], 'new_prefix') !!}
+```
+or use NoFilter::class in filterSettings().
+
 ### In a controller
 
 There are two methods you can use in controller. Both are available on the model and on the Eloquent query builder.

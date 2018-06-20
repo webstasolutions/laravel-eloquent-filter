@@ -122,6 +122,24 @@ abstract class Filter
         ];
         return $this->render($templateData);
     }
+    
+    public function _renderSortingButtons(string $columnName, string $prefix = null)
+    {
+        if (isset($this->settings['noSortingButtons']) && $this->settings['noSortingButtons'] === true) {
+            return null;
+        }
+        $realPrefix = $prefix ?: Helpers::getModelName(self::class);
+        if (count(explode('.', $columnName)) > 1) {
+            return null;
+        }
+        $value = Helpers::getInputValue($realPrefix . '_sorting');
+        $sorting = explode('-', $value);
+        return view('laravel_eloquent_filter::sorting-buttons', [
+            'prefix' => $realPrefix,
+            'sorting' => $sorting,
+            'columnName' => $columnName,
+        ]);
+    }
 
     public function getFilterName(string $prefix = null)
     {

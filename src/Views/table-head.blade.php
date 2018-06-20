@@ -1,7 +1,13 @@
 <thead>
 <tr>
     @foreach($labels as $index => $label)
-        <th>{{ $label }} {!! $model::renderSortingButtons($columns[$index], $prefix) !!}</th>
+        <th>
+            @if (empty($label))
+            &nbsp;
+            @else
+            {{ $label }} {!! $model::renderSortingButtons($columns[$index], $prefix) !!}
+            @endif
+        </th>
     @endforeach
     <th></th>
 </tr>
