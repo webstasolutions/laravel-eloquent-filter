@@ -23,10 +23,14 @@ class RangeFilter extends Filter
         $from = isset($values['from']) ? $values['from'] : '';
         $to = isset($values['to']) ? $values['to'] : '';
         if(!empty($from)) {
-            $this->builder = $this->builder->where($this->columnName, '>=', $from);
+            $this->builder = $this->builder->where(function($q) use ($from) {
+                $q->where($this->columnName, '>=', $from)->orWhereNull($this->columnName);
+            });
         }
         if(!empty($to)) {
-            $this->builder = $this->builder->where($this->columnName, '<=', $to);
+            $this->builder = $this->builder->where(function($q) use ($to) {
+                $q->where($this->columnName, '<=', $to)->orWhereNull($this->columnName);
+            });
         }
         return $this->builder;
     }

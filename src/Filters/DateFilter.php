@@ -23,10 +23,14 @@ class DateFilter extends Filter
         $from = isset($values['from']) ? $values['from'] : '';
         $to = isset($values['to']) ? $values['to'] : '';
         if(!empty($from)) {
-            $this->builder = $this->builder->whereDate($this->columnName, '>=', $from);
+            $this->builder = $this->builder->where(function($q) use ($from) {
+                $q->whereDate($this->columnName, '>=', $from)->orWhereNull($this->columnName);
+            });
         }
         if(!empty($to)) {
-            $this->builder = $this->builder->whereDate($this->columnName, '<=', $to);
+            $this->builder = $this->builder->where(function($q) use ($to) {
+                $q->whereDate($this->columnName, '<=', $to)->orWhereNull($this->columnName);
+            });
         }
         return $this->builder;
     }

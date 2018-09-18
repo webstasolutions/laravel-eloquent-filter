@@ -24,6 +24,7 @@ class MultipleSelectionFilter extends Filter
                     foreach(array_slice($conditions, 1) as $condition) {
                         $query->orWhere($this->columnName, $condition);
                     }
+                    $query->orWhereNull($this->columnName);
                 }
             });
         }
