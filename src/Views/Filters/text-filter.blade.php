@@ -2,7 +2,7 @@
     @if(isset($label))
         <label class="label-control" for="{{ $name }}">{{ $label }}</label>
     @endif
-    <input data-eloquent-filter type="text" name="{{ $name }}" id="{{ $name }}" value="{{ $values[0] }}" class="form-control"/>
+    <input data-eloquent-filter type="text" name="{{ $name }}" id="{{ $name }}" onkeydown="return submit(event)" value="{{ $values[0] }}" class="form-control"/>
 </div>
 @if($reset && $values[0])
     <div class="form-group">
@@ -13,3 +13,12 @@
                 ">@lang('laravel_eloquent_filter::filter.reset')</button>
     </div>
 @endif
+
+<script>
+    function submit(e) {
+        if (e.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById('{{ $prefix }}_submit_filter').click();
+        }
+    }
+</script>

@@ -15,9 +15,12 @@
     </td>
     <script>
         (function () {
-            var tr = document.scripts[document.scripts.length - 1].parentNode;
-            var forms = tr.getElementsByTagName('form');
-            var form = forms[forms.length - 1];
+            var form = document.getElementById('table-filter-form');
+            if (document.getElementById('table-filter-form') == null) {
+                var tr = document.scripts[document.scripts.length - 1].parentNode;
+                var forms = tr.getElementsByTagName('form');
+                var form = forms[forms.length - 1];
+            }
             form.addEventListener('submit', function (e) {
                 var inputs = document.querySelectorAll('[data-eloquent-filter][name*={{ $prefix }}_]');
                 inputs.forEach(function (input) {

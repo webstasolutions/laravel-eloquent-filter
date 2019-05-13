@@ -1,4 +1,4 @@
-<button name="filter_submit" id="{{ $prefix }}_reset_filter" value="reset" class="btn btn-danger">@lang('laravel_eloquent_filter::filter.reset')</button>
+<button name="filter_submit" id="{{ $prefix }}_reset_filter" value="reset" class="btn btn-danger"><span class="fa fa-times"></span> @lang('laravel_eloquent_filter::filter.reset')</button>
 <script>
     (function () {
         var resetButton = document.getElementById("{{ $prefix }}_reset_filter");
