@@ -27,12 +27,12 @@
                     <li class="col-md-6">
                         <button class="btn-x-s btn-primary" style="margin-bottom: 5px" onclick="
                                 document.getElementById('{{ $prefix }}_submit_filter').click();
-                                "><span class="fa fa-filter"></span> @lang('laravel_eloquent_filter::filter.filter')</button>
+                                ">@lang('laravel_eloquent_filter::filter.filter')</button>
                     </li>
                     <li class="col-md-6" style="margin-left: 16px">
                         <button class="btn-x-s btn-danger" onclick="
                                 document.getElementById('{{ $prefix }}_reset_filter').click();
-                                "><span class="fa fa-times"></span> @lang('laravel_eloquent_filter::filter.reset')</button>
+                                ">@lang('laravel_eloquent_filter::filter.reset')</button>
                     </li>
                 </div>
         </ul>
