@@ -13,7 +13,7 @@ class RangeFilter extends Filter
         'view' => 'laravel_eloquent_filter::Filters.range-filter'
     ];
 
-    protected $values = [
+    public $values = [
         'from' => '_from',
         'to' => '_to'
     ];

@@ -1,4 +1,10 @@
-<div id="filtered-items"></div>
+@if(!empty($values[0]))
+    <span class="fa fa-times" style="color: red" onclick="document.getElementById('{{$prefix}}_reset_filter').click()"></span><strong> Status: </strong>
+    @foreach($values[0] as $value)
+        {{ $value }}
+    @endforeach
+@endif
+
 <thead>
 <tr>
     @foreach($labels as $index => $label)
@@ -20,12 +26,6 @@
         var forms = parent.getElementsByTagName('form');
         var form = forms[forms.length - 1];
         var sortingButtons = parent.querySelectorAll('button[name="{{ $prefix }}_sorting"]');
-
-        // TODO
-        var items = document.getElementById('filtered-data');
-        items !== null ? items = items.innerHTML : '';
-        document.getElementById('filtered-items').innerHTML = items;
-
         for(var i = 0; i < sortingButtons.length; i++) {
             (function () {
                 var button = sortingButtons[i];

@@ -44,6 +44,21 @@ trait Filterable
         ]);
     }
 
+    public static function getFilterValues($columnName, $prefix)
+    {
+        $instance = new self();
+        $filterSettings = $instance->filterSettings()[$columnName];
+        $settings = isset($filterSettings['settings']) ? $filterSettings['settings'] : [];
+        $filter = new $filterSettings['filter']($settings);
+        $filter->setColumnName($columnName);
+
+        $values = array_map(function ($suffix) use (&$prefix,$filter) {
+            dump($filter->getFilterName($prefix));
+            return Helpers::getInputValue($filter->getFilterName($prefix) . $suffix);
+        }, $filter->values);
+        dump($values);
+    }
+
     public static function renderFilterTableHead(array $columns, string $prefix = null)
     {
         $realPrefix = $prefix ?: Helpers::getModelName(self::class);
@@ -55,7 +70,8 @@ trait Filterable
             'model' => self::class,
             'prefix' => $realPrefix,
             'columns' => $columns,
-            'filterRow' => self::renderFilterTableRow($columns, $prefix)
+            'filterRow' => self::renderFilterTableRow($columns, $prefix),
+            'values' => self::getFilterValues('published', $realPrefix),
         ]);
     }
 

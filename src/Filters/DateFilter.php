@@ -13,7 +13,7 @@ class DateFilter extends Filter
         'view' => 'laravel_eloquent_filter::Filters.date-filter'
     ];
 
-    protected $values = [
+    public $values = [
         'from' => '_from',
         'to' => '_to'
     ];

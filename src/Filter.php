@@ -17,12 +17,12 @@ abstract class Filter
     /**
      * @var array
      */
-    protected $values = [''];
+    public $values = [''];
 
     /**
      * @var array
      */
-    protected $settings = [];
+    public $settings = [];
 
     /**
      * @var Builder
