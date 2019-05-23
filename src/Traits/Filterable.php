@@ -59,7 +59,7 @@ trait Filterable
         ]);
     }
 
-    public function renderFilterControlButtons(string $prefix = null)
+    public static function renderFilterControlButtons(string $prefix = null)
     {
         $realPrefix = $prefix ?: Helpers::getModelName(self::class);
         return view('laravel_eloquent_filter::table-control-buttons', [

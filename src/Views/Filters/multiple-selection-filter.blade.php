@@ -20,21 +20,22 @@
             @endforeach
             @if(!empty($values[0]))
                 <li>
-                    <button class="btn-x-s btn-danger" style="margin-bottom: 5px" id="{{ $name }}_clear">@lang('laravel_eloquent_filter::filter.clear')</button>
+                    <button class="btn btn-sm btn-danger" id="{{ $name }}_clear">@lang('laravel_eloquent_filter::filter.clear')</button>
                 </li>
             @endif
-                <div class="row">
-                    <div class="col-xs-6">
-                        <button class="btn-x-s btn-primary" style="margin-bottom: 5px" onclick="
-                                document.getElementById('{{ $prefix }}_submit_filter').click();
-                                ">@lang('laravel_eloquent_filter::filter.filter')</button>
-                    </div>
-                    <div class="col-xs-6" style="margin-left: 16px">
-                        <button class="btn-x-s btn-danger" onclick="
-                                document.getElementById('{{ $prefix }}_reset_filter').click();
-                                ">@lang('laravel_eloquent_filter::filter.reset')</button>
-                    </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-sm btn-danger" onclick="
+                            document.getElementById('{{ $prefix }}_reset_filter').click();
+                            "><span class="fa fa-times"></span>@lang('laravel_eloquent_filter::filter.reset')</button>
                 </div>
+                <div class="col-xs-12" style="padding: 0;">
+                    <button class="btn btn-sm btn-primary" onclick="
+                            document.getElementById('{{ $prefix }}_submit_filter').click();
+                            "><span class="fa fa-filter"></span>@lang('laravel_eloquent_filter::filter.filter')</button>
+                </div>
+
+            </div>
         </ul>
     </div>
     @if(!empty($values[0]))
