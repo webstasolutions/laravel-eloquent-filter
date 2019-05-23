@@ -24,16 +24,16 @@
                 </li>
             @endif
                 <div class="row">
-                    <li class="col-md-6">
+                    <div class="col-xs-6">
                         <button class="btn-x-s btn-primary" style="margin-bottom: 5px" onclick="
                                 document.getElementById('{{ $prefix }}_submit_filter').click();
                                 ">@lang('laravel_eloquent_filter::filter.filter')</button>
-                    </li>
-                    <li class="col-md-6" style="margin-left: 16px">
+                    </div>
+                    <div class="col-xs-6" style="margin-left: 16px">
                         <button class="btn-x-s btn-danger" onclick="
                                 document.getElementById('{{ $prefix }}_reset_filter').click();
                                 ">@lang('laravel_eloquent_filter::filter.reset')</button>
-                    </li>
+                    </div>
                 </div>
         </ul>
     </div>

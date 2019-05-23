@@ -1,18 +1,12 @@
 <tr>
     @foreach($columns as $column)
         <td>
-            @if($column !== '' && !is_null($column))
+            @if($column !== '')
                 {!! $model::renderFilter($column, $prefix, false, true) !!}
             @endif
         </td>
     @endforeach
-    <td>
-        <form>
-            {!! $model::renderPerPageSelect($prefix) !!}
-            {!! $model::renderFilterResetButton($prefix) !!}
-            {!! $model::renderFilterButton($prefix) !!}
-        </form>
-    </td>
+    <td></td>
     <script>
         (function () {
             var form = document.getElementById('table-filter-form');

@@ -59,6 +59,15 @@ trait Filterable
         ]);
     }
 
+    public function renderFilterControlButtons(string $prefix = null)
+    {
+        $realPrefix = $prefix ?: Helpers::getModelName(self::class);
+        return view('laravel_eloquent_filter::table-control-buttons', [
+            'model' => self::class,
+            'prefix' => $realPrefix
+        ]);
+    }
+
     public static function renderFilterResetButton(string $prefix = null)
     {
         $realPrefix = $prefix ?: Helpers::getModelName(self::class);

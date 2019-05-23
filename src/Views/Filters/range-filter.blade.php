@@ -12,8 +12,7 @@
         <button class="btn btn-danger" onclick="
                 document.getElementById('{{ $name }}_from').value = '';
                 document.getElementById('{{ $name }}_to').value = '';
-                document.getElementById('{{ $prefix }}_submit_filter').click();
-                return false;
+                document.getElementById('{{ $prefix }}_submit_filter').click()
                 ">@lang('laravel_eloquent_filter::filter.reset')</button>
     </div>
 @endif
