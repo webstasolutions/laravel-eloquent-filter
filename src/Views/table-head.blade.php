@@ -7,12 +7,12 @@
 
 <thead>
 <tr>
-    @foreach($labels as $index => $label)
-        <th>
-            @if (empty($label))
-            &nbsp;
+    @foreach($settings as $index => $setting)
+        <th class="{{$setting['th_class']}}">
+            @if (empty($setting['label']))
+                &nbsp;
             @else
-            {{ $label }} {!! $model::renderSortingButtons($columns[$index], $prefix) !!}
+                {{ $setting['label'] }} {!! $model::renderSortingButtons($columns[$index], $prefix) !!}
             @endif
         </th>
     @endforeach

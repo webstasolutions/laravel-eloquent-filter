@@ -47,4 +47,25 @@ class Helpers
         }
         return isset($filterSettings['label']) ? $filterSettings['label'] : (isset($filterSettings['label_trans']) ? trans($filterSettings['label_trans']) : null);
     }
+    public static function getFilterThSettings(string $column, $model = null, array $filterSettings = null)
+    {
+        if($column == '') return [];
+        if(!isset($filterSettings)) {
+            try {
+                $instance = new $model();
+                $filterSettings = $instance->filterSettings()[$column]['settings'];
+            } catch (Exception $ex) {
+                throw new NoFilterSettingsException($model);
+            }
+            if(!is_array($filterSettings)) {
+                throw new NoFilterSettingsException($model);
+            }
+        }
+        $label = isset($filterSettings['label']) ? $filterSettings['label'] : (isset($filterSettings['label_trans']) ? trans($filterSettings['label_trans']) : null);
+        $thClass = isset($filterSettings['th_class']) ? $filterSettings['th_class'] : null;
+        return [
+            'label' => $label,
+            'th_class' => $thClass
+        ];
+    }
 }

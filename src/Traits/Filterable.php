@@ -44,34 +44,18 @@ trait Filterable
         ]);
     }
 
-    public static function getFilterValues($columnName, $prefix)
-    {
-        $instance = new self();
-        $filterSettings = $instance->filterSettings()[$columnName];
-        $settings = isset($filterSettings['settings']) ? $filterSettings['settings'] : [];
-        $filter = new $filterSettings['filter']($settings);
-        $filter->setColumnName($columnName);
-
-        $values = array_map(function ($suffix) use (&$prefix,$filter) {
-            dump($filter->getFilterName($prefix));
-            return Helpers::getInputValue($filter->getFilterName($prefix) . $suffix);
-        }, $filter->values);
-        dump($values);
-    }
-
     public static function renderFilterTableHead(array $columns, string $prefix = null)
     {
         $realPrefix = $prefix ?: Helpers::getModelName(self::class);
         return view('laravel_eloquent_filter::table-head', [
-            'labels' => array_map(function($column) {
+            'settings' => array_map(function($column) {
                 if (empty($column)) return '';
-                return Helpers::getFilterLabel($column, self::class);
+                return Helpers::getFilterThSettings($column, self::class);
             }, $columns),
             'model' => self::class,
             'prefix' => $realPrefix,
             'columns' => $columns,
-            'filterRow' => self::renderFilterTableRow($columns, $prefix),
-            'values' => self::getFilterValues('published', $realPrefix),
+            'filterRow' => self::renderFilterTableRow($columns, $prefix)
         ]);
     }
 
