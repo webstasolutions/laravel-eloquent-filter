@@ -22,9 +22,12 @@
 {!! $filterRow !!}
 <script>
     (function () {
+        var form = document.getElementById('table-filter-controls-{{ $prefix }}');
         var parent = document.scripts[document.scripts.length - 1].parentNode.parentNode;
-        var forms = parent.getElementsByTagName('form');
-        var form = forms[forms.length - 1];
+        if (typeof form === 'null') {
+            var forms = parent.getElementsByTagName('form');
+            form = forms[forms.length - 1];
+        }
         var sortingButtons = parent.querySelectorAll('button[name="{{ $prefix }}_sorting"]');
         for(var i = 0; i < sortingButtons.length; i++) {
             (function () {
