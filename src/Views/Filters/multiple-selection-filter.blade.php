@@ -18,17 +18,21 @@
                     </label>
                 </li>
             @endforeach
+            {{--
             @if(!empty($values[0]))
                 <li>
                     <button class="btn btn-sm btn-danger" id="{{ $name }}_clear">@lang('laravel_eloquent_filter::filter.clear')</button>
                 </li>
             @endif
+            --}}
             <div class="row">
-                <div class="col-xs-12">
-                    <button class="btn btn-sm btn-danger" onclick="
-                            document.getElementById('{{ $prefix }}_reset_filter').click();
-                            "><span class="fa fa-times"></span>@lang('laravel_eloquent_filter::filter.reset')</button>
-                </div>
+                @if(!empty($values[0]))
+                    <div class="col-xs-12">
+                        <button class="btn btn-sm btn-danger" onclick="
+                                document.getElementById('{{ $prefix }}_reset_filter').click();
+                                "><span class="fa fa-times"></span>@lang('laravel_eloquent_filter::filter.reset')</button>
+                    </div>
+                @endif
                 <div class="col-xs-12" style="padding: 0;">
                     <button class="btn btn-sm btn-primary" onclick="
                             document.getElementById('{{ $prefix }}_submit_filter').click();
