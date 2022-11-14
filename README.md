@@ -4,9 +4,9 @@ Laravel module for easy creating and using Eloquent filters.
 
 ## Requirements
 
-* PHP 7.0.0+
+* PHP 7.4+ | 8.0+
 * Laravel 5.5+ (tested)
-* Bootstrap 3 (optional)
+* Bootstrap 3+ (optional)
 * Font Awesome (optional)
 
 ## Installation

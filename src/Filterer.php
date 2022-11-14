@@ -5,7 +5,6 @@ namespace WebstaSolutions\LaravelEloquentFilter;
 
 use \Illuminate\Http\Request;
 use \Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Input;
 use WebstaSolutions\LaravelEloquentFilter\Exceptions\NoFilterSettingsException;
 
 class Filterer
@@ -61,7 +60,7 @@ class Filterer
         if($paginate) {
             $perPageName = $prefix ?: Helpers::getModelName($model) . '_per_page';
             return $this->builder->paginate(Helpers::getInputValue($perPageName))
-                ->appends(Input::except('page'));
+                ->appends($request->except('page'));
         }
         return $this->builder;
     }
