@@ -4,7 +4,7 @@
     @endif
     <div class="input-group">
         <input type="date" id="{{$name}}_rangepicker" data-name="{{$name}}" class="form-control datepickerrange">
-        <div class="input-group-addon cursor-pointer open-datepicker" data-toggle><i class="fa fa-calendar"></i></div>
+        <div class="input-group-addon cursor-pointer open-datepicker" data-bs-toggle><i class="fa fa-calendar"></i></div>
     </div>
     <input data-eloquent-filter type="hidden" name="{{ $name }}_from" id="{{ $name }}_from" value="{{ $values['from'] }}" placeholder="@lang('laravel_eloquent_filter::filter.from')" class="form-control"/>
     <input data-eloquent-filter type="hidden" name="{{ $name }}_to" id="{{ $name }}_to" value="{{ $values['to'] }}" placeholder="@lang('laravel_eloquent_filter::filter.to')" class="form-control"/>

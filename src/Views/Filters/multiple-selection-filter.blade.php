@@ -4,7 +4,7 @@
         </label>
     @endif
     <div class="dropdown" style="margin-bottom: 10px;">
-        <button class="btn btn-default dropdown-toggle fa fa-filter" data-toggle="dropdown" style="font-size: 18px"></button>
+        <button class="btn btn-default dropdown-bs-toggle fa fa-filter" data-toggle="dropdown" style="font-size: 18px"></button>
         <ul class="dropdown-menu" id="{{ $name }}_dropdown-menu" style="padding: 0 10px 10px;">
             @foreach($checkboxValues as $key => $value)
                 <li class="checkbox">
