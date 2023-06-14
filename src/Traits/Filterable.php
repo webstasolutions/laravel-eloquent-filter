@@ -71,9 +71,14 @@ trait Filterable
     public static function renderFilterResetButton(string $prefix = null)
     {
         $realPrefix = $prefix ?: Helpers::getModelName(self::class);
-        return view('laravel_eloquent_filter::reset-button', [
-           'prefix' => $realPrefix
-        ]);
+
+        if (Helpers::isFiltersActive($realPrefix, self::class)) {
+            return view('laravel_eloquent_filter::reset-button', [
+                'prefix' => $realPrefix,
+            ]);
+        } else {
+            return null;
+        }
     }
 
     public static function renderFilterButton(string $prefix = null)

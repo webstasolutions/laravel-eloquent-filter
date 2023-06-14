@@ -68,4 +68,19 @@ class Helpers
             'th_class' => $thClass
         ];
     }
+
+    public static function isFiltersActive(string $realPrefix, $model)
+    {
+        $instance = new $model();
+        foreach ($instance->filterSettings() as $name => $setting) {
+            if (Helpers::getInputValue($realPrefix.'_'.$name) || Helpers::getInputValue($realPrefix.'_'.$name.'_from') || Helpers::getInputValue($realPrefix.'_'.$name.'_to')) {
+                return true;
+            }
+        }
+        if (Helpers::getInputValue($realPrefix.'_sorting')) {
+            return true;
+        }
+
+        return false;
+    }
 }
