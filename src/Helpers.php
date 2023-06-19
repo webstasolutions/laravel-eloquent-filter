@@ -22,7 +22,7 @@ class Helpers
             $request = request();
         }
         $value = $request->get($inputName);
-        if (config('laravel_eloquent_filter.use_session')) {
+        if ($request->user()->session_filter ?? config('laravel_eloquent_filter.use_session')) {
             if ($value === null && $request->get('filter_submit') === null) {
                 $value = $request->session()->get($inputName);
             }
