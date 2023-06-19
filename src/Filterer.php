@@ -59,7 +59,8 @@ class Filterer
         }
         if($paginate) {
             $perPageName = $prefix ?: Helpers::getModelName($model) . '_per_page';
-            return $this->builder->paginate(Helpers::getInputValue($perPageName))
+            $perPageValue = Helpers::getInputValue($perPageName);
+            return $this->builder->paginate($perPageValue ? $perPageValue : 10)
                 ->appends($request->except('page'));
         }
         return $this->builder;
